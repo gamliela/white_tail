@@ -1,8 +1,7 @@
 module WhiteTail
   module DSL
     module Components
-      class Component
-        include DataHolder
+      class Field < DelegateClass(Object)
       end
     end
   end

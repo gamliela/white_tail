@@ -1,7 +1,7 @@
 module WhiteTail
   module DSL
     module Components
-      class Project < Component
+      class Project < Record
         extend ScriptBuilder
       end
     end

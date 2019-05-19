@@ -1,7 +1,7 @@
 module WhiteTail
   module DSL
     module Commands
-      class BaseCommand
+      class Base
         attr_reader :element_name, :options
 
         def initialize(element_name, **options)

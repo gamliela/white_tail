@@ -1,8 +1,7 @@
 module WhiteTail
   module DSL
     module Components
-      class Page < Record
-        extend ScriptBuilder
+      class Error < DelegateClass(StandardError)
       end
     end
   end

@@ -1,31 +1,38 @@
-require "ostruct"
-
 module WhiteTail
   class ScriptExecutor
-    attr_accessor :script, :data
+    attr_reader :element
 
-    def initialize(script)
-      @script = script
-      @data = DSL::DataObject.new([OpenStruct.new])
+    def initialize(element)
+      @element = element
+
+      raise "#{element.class} is not scriptable" unless commands
+      raise "#{element.class} is not a Record component" unless element.class < DSL::Components::Record
     end
 
-    def execute
-      script.commands.each do |command|
-        record[command.element_name] = execute_command(command)
+    def execute(execution_scope)
+      commands.each do |command|
+        element[command.element_name] = execute_command(command, execution_scope)
       end
-      data
+      element
+    rescue StandardError => error
+      DSL::Components::Error.new(error)
     end
 
-    def execute_command(command)
-      command.execute
+    def execute_command(command, execution_scope)
+      command.execute(execution_scope)
     rescue StandardError => error
-      DSL::DataObject.new([], error)
+      DSL::Components::Error.new(error)
+    end
+
+    def self.execute_for(component, execution_scope)
+      element = component.new
+      ScriptExecutor.new(element).execute(execution_scope)
     end
 
     private
 
-    def record
-      data.records.first
+    def commands
+      element.class.script&.commands
     end
   end
 end

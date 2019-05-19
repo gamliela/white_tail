@@ -1,7 +1,7 @@
-require_relative "commands/base_command"
-require_relative "commands/project_command"
-require_relative "commands/page_command"
-require_relative "commands/text_command"
+require_relative "commands/base"
+require_relative "commands/project"
+require_relative "commands/page"
+require_relative "commands/text"
 
 module WhiteTail
   module DSL
