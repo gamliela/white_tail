@@ -3,8 +3,8 @@ require "white_tail"
 
 WhiteTail.project :wikipedia do
   page :definition, "https://en.wikipedia.org/wiki/White-tailed_spider" do
-    text :title, "#firstHeading", :required => true
-    text :description, "#mw-content-text", :required => true
+    text :title, ".//h1[@id='firstHeading']", :required => true
+    text :description, ".//div[@id='mw-content-text']", :required => true
     #attribute :image_url, "#mw-content-text .infobox.biota img", :src
   end
 end
