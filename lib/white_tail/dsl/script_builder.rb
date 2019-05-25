@@ -16,6 +16,12 @@ module WhiteTail
 
         script << Commands::Text.new(component, text_name, locator, options, &block)
       end
+
+      def attribute(attribute_name, locator, attribute, **options, &block)
+        component = Components.def_component(self, Components::Attribute, attribute_name)
+
+        script << Commands::Attribute.new(component, attribute_name, locator, attribute, options, &block)
+      end
     end
   end
 end

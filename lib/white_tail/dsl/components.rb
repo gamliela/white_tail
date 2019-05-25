@@ -4,7 +4,7 @@ require_relative "components/record"
 require_relative "components/project"
 require_relative "components/page"
 require_relative "components/text"
-require_relative "components/text"
+require_relative "components/attribute"
 
 module WhiteTail
   module DSL
