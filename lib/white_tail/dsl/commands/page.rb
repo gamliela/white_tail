@@ -14,8 +14,6 @@ module WhiteTail
           execution_scope.session.visit(url) if url
           execution_scope = ExecutionScope.new(execution_scope.session, url)
           ScriptExecutor.execute_for(page_component, execution_scope)
-        rescue StandardError => error
-          DSL::Components::Error.new(error)
         end
       end
     end
