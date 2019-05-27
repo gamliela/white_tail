@@ -3,6 +3,7 @@ require_relative "components/field"
 require_relative "components/record"
 require_relative "components/project"
 require_relative "components/page"
+require_relative "components/section"
 require_relative "components/text"
 require_relative "components/attribute"
 

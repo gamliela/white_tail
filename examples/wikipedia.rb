@@ -5,7 +5,9 @@ WhiteTail.project :wikipedia do
   page :definition, "https://en.wikipedia.org/wiki/White-tailed_spider" do
     text :title, ".//h1[@id='firstHeading']", :required => true
     text :description, ".//div[@id='mw-content-text']", :required => true
-    attribute :image_url, ".//div[@id='mw-content-text']//table[@class='infobox biota']//img", :src
+    section :infobox, ".//div[@id='mw-content-text']//table[@class='infobox biota']" do
+      attribute :image_url, ".//img", :src
+    end
   end
 end
 
