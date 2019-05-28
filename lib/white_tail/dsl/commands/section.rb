@@ -7,11 +7,11 @@ module WhiteTail
 
         ALLOWED_OPTIONS = %i[required]
 
-        attr_reader :section_component, :element_name, :locator, :options
+        attr_reader :section_component, :node_name, :locator, :options
 
-        def initialize(section_component, element_name, locator, **options)
+        def initialize(section_component, node_name, locator, **options)
           @section_component = section_component
-          @element_name = element_name
+          @node_name = node_name
           @locator = locator
           @options = options
 

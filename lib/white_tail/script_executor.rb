@@ -1,19 +1,19 @@
 module WhiteTail
   class ScriptExecutor
-    attr_reader :element
+    attr_reader :node
 
-    def initialize(element)
-      @element = element
+    def initialize(node)
+      @node = node
 
-      raise "#{element.class} is not scriptable" unless commands
-      raise "#{element.class} is not a Record component" unless element.class < DSL::Components::Record
+      raise "#{node.class} is not scriptable" unless commands
+      raise "#{node.class} is not a Record component" unless node.class < DSL::Components::Record
     end
 
     def execute(execution_scope)
       commands.each do |command|
-        element[command.element_name] = execute_command(command, execution_scope)
+        node[command.node_name] = execute_command(command, execution_scope)
       end
-      element
+      node
     rescue StandardError => error
       DSL::Components::Error.new(error)
     end
@@ -23,14 +23,14 @@ module WhiteTail
     end
 
     def self.execute_for(component, execution_scope)
-      element = component.new
-      ScriptExecutor.new(element).execute(execution_scope)
+      node = component.new
+      ScriptExecutor.new(node).execute(execution_scope)
     end
 
     private
 
     def commands
-      element.class.script&.commands
+      node.class.script&.commands
     end
   end
 end

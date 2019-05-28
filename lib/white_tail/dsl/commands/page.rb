@@ -6,11 +6,11 @@ module WhiteTail
 
         ALLOWED_OPTIONS = []
 
-        attr_reader :page_component, :element_name, :url, :options
+        attr_reader :page_component, :node_name, :url, :options
 
-        def initialize(page_component, element_name, url, **options)
+        def initialize(page_component, node_name, url, **options)
           @page_component = page_component
-          @element_name = element_name
+          @node_name = node_name
           @url = url
           @options = options
 

@@ -6,11 +6,11 @@ module WhiteTail
 
         ALLOWED_OPTIONS = []
 
-        attr_reader :project_component, :element_name, :options
+        attr_reader :project_component, :node_name, :options
 
-        def initialize(project_component, element_name, **options)
+        def initialize(project_component, node_name, **options)
           @project_component = project_component
-          @element_name = element_name
+          @node_name = node_name
           @options = options
 
           validate_options(ALLOWED_OPTIONS)

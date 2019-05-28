@@ -10,14 +10,14 @@ require_relative "components/attribute"
 module WhiteTail
   module DSL
     module Components
-      def self.def_component(namespace, super_class, element_name, &block)
-        klass = self.resolve_component(namespace, super_class, element_name)
+      def self.def_component(namespace, super_class, node_name, &block)
+        klass = self.resolve_component(namespace, super_class, node_name)
         klass.class_eval(&block) if block_given?
         klass
       end
 
-      def self.resolve_component(namespace, super_class, element_name)
-        prefix = WhiteTail::Utils::camel_case(element_name.to_s)
+      def self.resolve_component(namespace, super_class, node_name)
+        prefix = WhiteTail::Utils::camel_case(node_name.to_s)
         suffix = super_class.name.split("::").last
         local_class_name = prefix + suffix
 
