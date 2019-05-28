@@ -1,8 +1,5 @@
 module WhiteTail
   class ExecutionScope
-    class UnexpectedBrowserState < StandardError
-    end
-
     class IndexedLocator
       attr_reader :locator, :index
 

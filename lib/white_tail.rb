@@ -1,6 +1,7 @@
 require "capybara/dsl"
 require "white_tail/default_config"
 require "white_tail/version"
+require "white_tail/exceptions"
 require "white_tail/utils"
 require "white_tail/projects"
 require "white_tail/dsl"
