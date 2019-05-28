@@ -26,6 +26,8 @@ module WhiteTail
             value = nil
           end
           text_component.new(value)
+        rescue StandardError => error
+          DSL::Components::Error.new(error)
         end
       end
     end

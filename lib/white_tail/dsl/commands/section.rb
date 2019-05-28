@@ -26,6 +26,8 @@ module WhiteTail
           else
             Components::Field.new(nil)
           end
+        rescue StandardError => error
+          DSL::Components::Error.new(error)
         end
       end
     end

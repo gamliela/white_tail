@@ -14,12 +14,12 @@ module WhiteTail
         element[command.element_name] = execute_command(command, execution_scope)
       end
       element
+    rescue StandardError => error
+      DSL::Components::Error.new(error)
     end
 
     def execute_command(command, execution_scope)
       command.execute(execution_scope)
-    rescue StandardError => error
-      DSL::Components::Error.new(error)
     end
 
     def self.execute_for(component, execution_scope)
