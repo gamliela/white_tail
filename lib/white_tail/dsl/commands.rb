@@ -1,5 +1,5 @@
 require_relative "commands/helpers"
-require_relative "commands/elements_locator"
+require_relative "commands/script_executor"
 require_relative "commands/project"
 require_relative "commands/page"
 require_relative "commands/validation"

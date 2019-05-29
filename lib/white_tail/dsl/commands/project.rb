@@ -2,8 +2,6 @@ module WhiteTail
   module DSL
     module Commands
       class Project
-        include Helpers
-
         ALLOWED_OPTIONS = []
 
         attr_reader :project_class, :node_name, :options
@@ -13,7 +11,7 @@ module WhiteTail
           @node_name = node_name
           @options = options
 
-          validate_options(ALLOWED_OPTIONS)
+          Helpers.validate_options(options, ALLOWED_OPTIONS)
         end
 
         def execute(execution_scope)

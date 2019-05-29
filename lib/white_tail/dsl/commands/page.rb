@@ -2,8 +2,6 @@ module WhiteTail
   module DSL
     module Commands
       class Page
-        include Helpers
-
         ALLOWED_OPTIONS = []
 
         attr_reader :page_class, :node_name, :url, :options
@@ -14,7 +12,7 @@ module WhiteTail
           @url = url
           @options = options
 
-          validate_options(ALLOWED_OPTIONS)
+          Helpers.validate_options(options, ALLOWED_OPTIONS)
         end
 
         def execute(execution_scope)

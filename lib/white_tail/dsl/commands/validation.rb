@@ -2,8 +2,6 @@ module WhiteTail
   module DSL
     module Commands
       class Validation
-        include Helpers
-
         ALLOWED_OPTIONS = []
 
         attr_reader :node_name, :locator, :options
@@ -13,7 +11,7 @@ module WhiteTail
           @locator = locator
           @options = options
 
-          validate_options(ALLOWED_OPTIONS)
+          Helpers.validate_options(options, ALLOWED_OPTIONS)
         end
 
         def execute(execution_scope)

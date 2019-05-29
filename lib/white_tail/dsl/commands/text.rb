@@ -2,9 +2,6 @@ module WhiteTail
   module DSL
     module Commands
       class Text
-        include Helpers
-        include ElementsLocator
-
         ALLOWED_OPTIONS = %i[required multiple]
 
         attr_reader :text_class, :node_name, :locator, :options
@@ -15,11 +12,11 @@ module WhiteTail
           @locator = locator
           @options = options
 
-          validate_options(ALLOWED_OPTIONS)
+          Helpers.validate_options(options, ALLOWED_OPTIONS)
         end
 
         def execute(execution_scope)
-          elements = find_elements(execution_scope)
+          elements = Helpers.find_elements(execution_scope, locator, options)
           if elements.any?
             value = elements.map(&:text).join(' ')
           else

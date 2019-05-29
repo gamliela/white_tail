@@ -6,7 +6,6 @@ require "white_tail/utils"
 require "white_tail/projects"
 require "white_tail/dsl"
 require "white_tail/execution_scope"
-require "white_tail/script_executor"
 
 module WhiteTail
   def self.project(project_name, &block)

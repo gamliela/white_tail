@@ -2,9 +2,6 @@ module WhiteTail
   module DSL
     module Commands
       class Attribute
-        include Helpers
-        include ElementsLocator
-
         ALLOWED_OPTIONS = []
 
         attr_reader :attribute_class, :node_name, :locator, :attribute, :options
@@ -16,11 +13,11 @@ module WhiteTail
           @attribute = attribute
           @options = options
 
-          validate_options(ALLOWED_OPTIONS)
+          Helpers.validate_options(options, ALLOWED_OPTIONS)
         end
 
         def execute(execution_scope)
-          element = find_elements(execution_scope)
+          element = Helpers.find_elements(execution_scope, locator, options)
           value = element.first&.[](attribute)
 
           raise "Attribute not found" if value.nil? && options[:required]
