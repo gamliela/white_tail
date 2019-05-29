@@ -16,6 +16,13 @@ module WhiteTail
         end
 
         def execute(execution_scope)
+          Helpers.validate_record_type(execution_scope.node.class)
+          execution_scope.node[node_name] = build_text_node(execution_scope)
+        end
+
+        private
+
+        def build_text_node(execution_scope)
           elements = Helpers.find_elements(execution_scope, locator, options)
           if elements.any?
             value = elements.map(&:text).join(' ')

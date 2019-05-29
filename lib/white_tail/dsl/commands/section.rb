@@ -13,13 +13,23 @@ module WhiteTail
           @options = options
 
           Helpers.validate_options(options, ALLOWED_OPTIONS)
+          Helpers.validate_script_commands(section_class)
         end
 
         def execute(execution_scope)
+          Helpers.validate_record_type(execution_scope.node.class)
+          execution_scope.node[node_name] = build_section_node(execution_scope)
+        end
+
+        private
+
+        def build_section_node(execution_scope)
           element = Helpers.find_elements(execution_scope, locator, options).first
           if element
-            execution_scope = execution_scope.extend_instance(locator, 0, element.text)
-            ScriptExecutor.execute_for(section_class, execution_scope)
+            section_node = section_class.new
+            section_execution_scope = execution_scope.extend_instance(section_node, locator, 0, element.text)
+            Helpers.execute_script(section_execution_scope)
+            section_node
           else
             Nodes::Field.new(nil)
           end

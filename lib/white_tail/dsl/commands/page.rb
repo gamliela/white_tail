@@ -13,12 +13,22 @@ module WhiteTail
           @options = options
 
           Helpers.validate_options(options, ALLOWED_OPTIONS)
+          Helpers.validate_script_commands(page_class)
         end
 
         def execute(execution_scope)
+          Helpers.validate_record_type(execution_scope.node.class)
+          execution_scope.node[node_name] = build_page_node(execution_scope)
+        end
+
+        private
+
+        def build_page_node(execution_scope)
+          page_node = page_class.new
           execution_scope.visit(url) if url
-          execution_scope = execution_scope.new_instance
-          ScriptExecutor.execute_for(page_class, execution_scope)
+          page_execution_scope = execution_scope.new_instance(page_node)
+          Helpers.execute_script(page_execution_scope)
+          page_node
         end
       end
     end

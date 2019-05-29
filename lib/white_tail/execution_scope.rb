@@ -9,19 +9,25 @@ module WhiteTail
       end
     end
 
-    def initialize(session)
+    attr_reader :node
+
+    def initialize(session, node)
       @session = session
       @url = session.current_url
+      @node = node
       @locators = []
       @text = nil
+
+      raise ArgumentError, "session argument cannot be nil" if session.nil?
+      raise ArgumentError, "node argument cannot be nil" if node.nil?
     end
 
-    def new_instance
-      ExecutionScope.new(session)
+    def new_instance(node)
+      ExecutionScope.new(session, node)
     end
 
-    def extend_instance(locator = nil, locator_index = nil, text = nil)
-      instance = new_instance
+    def extend_instance(node, locator = nil, locator_index = nil, text = nil)
+      instance = new_instance(node)
       instance.locators += locators
       instance.locators <<= IndexedLocator.new(locator, locator_index) if locator
       instance.text = text
@@ -47,6 +53,7 @@ module WhiteTail
     protected
 
     attr_accessor :session, :url, :locators, :text
+    attr_writer :node
 
     private
 
