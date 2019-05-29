@@ -6,10 +6,10 @@ module WhiteTail
 
         ALLOWED_OPTIONS = []
 
-        attr_reader :page_component, :node_name, :url, :options
+        attr_reader :page_class, :node_name, :url, :options
 
-        def initialize(page_component, node_name, url, **options)
-          @page_component = page_component
+        def initialize(page_class, node_name, url, **options)
+          @page_class = page_class
           @node_name = node_name
           @url = url
           @options = options
@@ -20,9 +20,9 @@ module WhiteTail
         def execute(execution_scope)
           execution_scope.visit(url) if url
           execution_scope = execution_scope.new_instance
-          ScriptExecutor.execute_for(page_component, execution_scope)
+          ScriptExecutor.execute_for(page_class, execution_scope)
         rescue StandardError => error
-          DSL::Components::Error.new(error)
+          DSL::Nodes::Error.new(error)
         end
       end
     end

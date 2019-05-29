@@ -1,6 +1,6 @@
 module WhiteTail
   module DSL
-    module Components
+    module Nodes
       class Record < DelegateClass(Hash)
         def initialize(base = Hash.new)
           super(base)

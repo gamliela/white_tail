@@ -6,10 +6,10 @@ module WhiteTail
 
         ALLOWED_OPTIONS = []
 
-        attr_reader :project_component, :node_name, :options
+        attr_reader :project_class, :node_name, :options
 
-        def initialize(project_component, node_name, **options)
-          @project_component = project_component
+        def initialize(project_class, node_name, **options)
+          @project_class = project_class
           @node_name = node_name
           @options = options
 
@@ -18,9 +18,9 @@ module WhiteTail
 
         def execute(execution_scope)
           execution_scope = execution_scope.new_instance
-          ScriptExecutor.execute_for(project_component, execution_scope)
+          ScriptExecutor.execute_for(project_class, execution_scope)
         rescue StandardError => error
-          DSL::Components::Error.new(error)
+          DSL::Nodes::Error.new(error)
         end
       end
     end

@@ -1,7 +1,7 @@
 module WhiteTail
   module DSL
-    module Components
-      class Page < Record
+    module Nodes
+      class Section < Record
         extend ScriptBuilder
       end
     end

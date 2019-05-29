@@ -1,6 +1,6 @@
 module WhiteTail
   module DSL
-    module Components
+    module Nodes
       class Field < DelegateClass(Object)
       end
     end

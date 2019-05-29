@@ -10,12 +10,12 @@ require "white_tail/script_executor"
 
 module WhiteTail
   def self.project(project_name, &block)
-    DSL::Components.def_project(project_name, &block)
+    DSL::Nodes.def_project_class(project_name, &block)
   end
 
   def self.execute(project_name)
-    project_component = DSL::Components::resolve_project_component(project_name)
-    project_command = DSL::Commands::Project.new(project_component, project_name)
+    project_class = DSL::Nodes::resolve_project_class(project_name)
+    project_command = DSL::Commands::Project.new(project_class, project_name)
     session = Capybara::Session.new(:selenium_chrome)
     execution_scope = ExecutionScope.new(session)
     project_command.execute(execution_scope)

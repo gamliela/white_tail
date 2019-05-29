@@ -7,10 +7,10 @@ module WhiteTail
 
         ALLOWED_OPTIONS = []
 
-        attr_reader :attribute_component, :node_name, :locator, :attribute, :options
+        attr_reader :attribute_class, :node_name, :locator, :attribute, :options
 
-        def initialize(attribute_component, node_name, locator, attribute, **options)
-          @attribute_component = attribute_component
+        def initialize(attribute_class, node_name, locator, attribute, **options)
+          @attribute_class = attribute_class
           @node_name = node_name
           @locator = locator
           @attribute = attribute
@@ -25,9 +25,9 @@ module WhiteTail
 
           raise "Attribute not found" if value.nil? && options[:required]
 
-          attribute_component.new(value)
+          attribute_class.new(value)
         rescue StandardError => error
-          DSL::Components::Error.new(error)
+          DSL::Nodes::Error.new(error)
         end
       end
     end

@@ -7,10 +7,10 @@ module WhiteTail
 
         ALLOWED_OPTIONS = %i[required multiple]
 
-        attr_reader :text_component, :node_name, :locator, :options
+        attr_reader :text_class, :node_name, :locator, :options
 
-        def initialize(text_component, node_name, locator, **options)
-          @text_component = text_component
+        def initialize(text_class, node_name, locator, **options)
+          @text_class = text_class
           @node_name = node_name
           @locator = locator
           @options = options
@@ -25,9 +25,9 @@ module WhiteTail
           else
             value = nil
           end
-          text_component.new(value)
+          text_class.new(value)
         rescue StandardError => error
-          DSL::Components::Error.new(error)
+          DSL::Nodes::Error.new(error)
         end
       end
     end

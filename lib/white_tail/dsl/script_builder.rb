@@ -6,8 +6,8 @@ module WhiteTail
       end
 
       def page(page_name, url, **options, &block)
-        component = Components.def_component(self, Components::Page, page_name, &block)
-        script << Commands::Page.new(component, page_name, url, options)
+        page_class = Nodes.def_node_class(self, Nodes::Page, page_name, &block)
+        script << Commands::Page.new(page_class, page_name, url, options)
       end
 
       def validation(validation_name, locator, **options)
@@ -15,18 +15,18 @@ module WhiteTail
       end
 
       def section(section_name, locator, **options, &block)
-        component = Components.def_component(self, Components::Section, section_name, &block)
-        script << Commands::Section.new(component, section_name, locator, options)
+        section_class = Nodes.def_node_class(self, Nodes::Section, section_name, &block)
+        script << Commands::Section.new(section_class, section_name, locator, options)
       end
 
       def text(text_name, locator, **options)
-        component = Components.def_component(self, Components::Text, text_name)
-        script << Commands::Text.new(component, text_name, locator, options)
+        text_class = Nodes.def_node_class(self, Nodes::Text, text_name)
+        script << Commands::Text.new(text_class, text_name, locator, options)
       end
 
       def attribute(attribute_name, locator, attribute, **options)
-        component = Components.def_component(self, Components::Attribute, attribute_name)
-        script << Commands::Attribute.new(component, attribute_name, locator, attribute, options)
+        attribute_class = Nodes.def_node_class(self, Nodes::Attribute, attribute_name)
+        script << Commands::Attribute.new(attribute_class, attribute_name, locator, attribute, options)
       end
     end
   end

@@ -6,7 +6,7 @@ module WhiteTail
       @node = node
 
       raise "#{node.class} is not scriptable" unless commands
-      raise "#{node.class} is not a Record component" unless node.class < DSL::Components::Record
+      raise "#{node.class} is not a Record node" unless node.class < DSL::Nodes::Record
     end
 
     def execute(execution_scope)
@@ -15,15 +15,15 @@ module WhiteTail
       end
       node
     rescue StandardError => error
-      DSL::Components::Error.new(error)
+      DSL::Nodes::Error.new(error)
     end
 
     def execute_command(command, execution_scope)
       command.execute(execution_scope)
     end
 
-    def self.execute_for(component, execution_scope)
-      node = component.new
+    def self.execute_for(node_class, execution_scope)
+      node = node_class.new
       ScriptExecutor.new(node).execute(execution_scope)
     end
 

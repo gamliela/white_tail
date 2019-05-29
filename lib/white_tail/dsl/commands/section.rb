@@ -7,10 +7,10 @@ module WhiteTail
 
         ALLOWED_OPTIONS = %i[required]
 
-        attr_reader :section_component, :node_name, :locator, :options
+        attr_reader :section_class, :node_name, :locator, :options
 
-        def initialize(section_component, node_name, locator, **options)
-          @section_component = section_component
+        def initialize(section_class, node_name, locator, **options)
+          @section_class = section_class
           @node_name = node_name
           @locator = locator
           @options = options
@@ -22,12 +22,12 @@ module WhiteTail
           element = find_elements(execution_scope).first
           if element
             execution_scope = execution_scope.extend_instance(locator, 0, element.text)
-            ScriptExecutor.execute_for(section_component, execution_scope)
+            ScriptExecutor.execute_for(section_class, execution_scope)
           else
-            Components::Field.new(nil)
+            Nodes::Field.new(nil)
           end
         rescue StandardError => error
-          DSL::Components::Error.new(error)
+          DSL::Nodes::Error.new(error)
         end
       end
     end
