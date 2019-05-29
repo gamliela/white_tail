@@ -23,8 +23,6 @@ module WhiteTail
           raise "Attribute not found" if value.nil? && options[:required]
 
           attribute_class.new(value)
-        rescue StandardError => error
-          DSL::Nodes::Error.new(error)
         end
       end
     end

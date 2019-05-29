@@ -23,8 +23,6 @@ module WhiteTail
             value = nil
           end
           text_class.new(value)
-        rescue StandardError => error
-          DSL::Nodes::Error.new(error)
         end
       end
     end

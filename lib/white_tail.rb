@@ -18,6 +18,8 @@ module WhiteTail
     session = Capybara::Session.new(:selenium_chrome)
     execution_scope = ExecutionScope.new(session)
     project_command.execute(execution_scope)
+  rescue StandardError => error
+    DSL::Nodes::Error.new(error)
   end
 
   def self.configure(config)

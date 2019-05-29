@@ -23,8 +23,6 @@ module WhiteTail
           else
             Nodes::Field.new(nil)
           end
-        rescue StandardError => error
-          DSL::Nodes::Error.new(error)
         end
       end
     end

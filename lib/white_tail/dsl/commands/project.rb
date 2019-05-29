@@ -17,8 +17,6 @@ module WhiteTail
         def execute(execution_scope)
           execution_scope = execution_scope.new_instance
           ScriptExecutor.execute_for(project_class, execution_scope)
-        rescue StandardError => error
-          DSL::Nodes::Error.new(error)
         end
       end
     end

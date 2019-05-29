@@ -16,8 +16,6 @@ module WhiteTail
             node[command.node_name] = execute_command(command, execution_scope)
           end
           node
-        rescue StandardError => error
-          DSL::Nodes::Error.new(error)
         end
 
         def execute_command(command, execution_scope)
