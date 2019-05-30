@@ -4,20 +4,21 @@ module WhiteTail
       class Section
         ALLOWED_OPTIONS = %i[required]
 
-        attr_reader :section_class, :node_name, :locator, :options
+        attr_reader :parent_class, :section_class, :node_name, :locator, :options
 
-        def initialize(section_class, node_name, locator, **options)
+        def initialize(parent_class, section_class, node_name, locator, **options)
+          @parent_class = parent_class
           @section_class = section_class
           @node_name = node_name
           @locator = locator
           @options = options
 
           Helpers.validate_options(options, ALLOWED_OPTIONS)
+          Helpers.validate_record_type(parent_class)
           Helpers.validate_script_commands(section_class)
         end
 
         def execute(execution_scope)
-          Helpers.validate_record_type(execution_scope.node.class)
           execution_scope.node[node_name] = build_section_node(execution_scope)
         end
 

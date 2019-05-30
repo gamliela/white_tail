@@ -4,9 +4,10 @@ module WhiteTail
       class Attribute
         ALLOWED_OPTIONS = %i[required]
 
-        attr_reader :attribute_class, :node_name, :locator, :attribute, :options
+        attr_reader :parent_class, :attribute_class, :node_name, :locator, :attribute, :options
 
-        def initialize(attribute_class, node_name, locator, attribute, **options)
+        def initialize(parent_class, attribute_class, node_name, locator, attribute, **options)
+          @parent_class = parent_class
           @attribute_class = attribute_class
           @node_name = node_name
           @locator = locator
@@ -14,10 +15,10 @@ module WhiteTail
           @options = options
 
           Helpers.validate_options(options, ALLOWED_OPTIONS)
+          Helpers.validate_record_type(parent_class)
         end
 
         def execute(execution_scope)
-          Helpers.validate_record_type(execution_scope.node.class)
           execution_scope.node[node_name] = build_attribute_node(execution_scope)
         end
 
