@@ -10,9 +10,14 @@ WhiteTail.project :wikipedia do
     section :infobox, ".//div[@id='mw-content-text']//table[@class='infobox biota']" do
       attribute :image_url, ".//img", :src
     end
+    sections :references, ".//div[@class='reflist columns references-column-width']/ol/li" do
+      text :text, "(.//span[@class='reference-text'])[1]"
+      sections :links, ".//a[@class='external text']" do
+        attribute :link, '.', :href
+      end
+    end
   end
 end
 
 results = WhiteTail.execute(:wikipedia)
-# puts WhiteTail.format_results(results, :json)
-puts results
+puts JSON.pretty_generate(results)

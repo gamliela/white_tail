@@ -1,9 +1,11 @@
 require_relative "nodes/error"
 require_relative "nodes/field"
 require_relative "nodes/record"
+require_relative "nodes/list"
 require_relative "nodes/project"
 require_relative "nodes/page"
 require_relative "nodes/section"
+require_relative "nodes/sections"
 require_relative "nodes/text"
 require_relative "nodes/attribute"
 

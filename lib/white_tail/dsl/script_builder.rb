@@ -19,6 +19,13 @@ module WhiteTail
         script << Commands::Section.new(self, section_class, section_name, locator, options)
       end
 
+      def sections(sections_name, locator, **options, &block)
+        sections_class = Nodes.def_node_class(self, Nodes::Sections, sections_name)
+        section_class = Nodes.def_node_class(sections_class, Nodes::Section, nil, &block)
+        options = options.merge(:section_class => section_class)
+        script << Commands::Sections.new(self, sections_class, sections_name, locator, options)
+      end
+
       def text(text_name, locator, **options)
         text_class = Nodes.def_node_class(self, Nodes::Text, text_name)
         script << Commands::Text.new(self, text_class, text_name, locator, options)
