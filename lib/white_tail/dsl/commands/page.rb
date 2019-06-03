@@ -4,31 +4,22 @@ module WhiteTail
       class Page
         ALLOWED_OPTIONS = []
 
-        attr_reader :parent_class, :page_class, :node_name, :url, :options
+        attr_reader :page_class, :script, :url, :options
 
-        def initialize(parent_class, page_class, node_name, url, **options)
-          @parent_class = parent_class
+        def initialize(page_class, url, **options)
           @page_class = page_class
-          @node_name = node_name
+          @script = Helpers.extract_script!(page_class)
           @url = url
           @options = options
 
           Helpers.validate_options(options, ALLOWED_OPTIONS)
-          Helpers.validate_record_type(parent_class)
-          Helpers.validate_script_commands(page_class)
         end
 
         def execute(execution_scope)
-          execution_scope.node[node_name] = build_page_node(execution_scope)
-        end
-
-        private
-
-        def build_page_node(execution_scope)
           page_node = page_class.new
           execution_scope.visit(url) if url
           page_execution_scope = execution_scope.new_instance(page_node)
-          Helpers.execute_script(page_execution_scope)
+          Helpers.execute_script(script, page_execution_scope)
           page_node
         end
       end

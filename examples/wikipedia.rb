@@ -1,4 +1,5 @@
 require "bundler/setup"
+require "json"
 require "white_tail"
 
 WhiteTail.project :wikipedia do
@@ -12,6 +13,7 @@ WhiteTail.project :wikipedia do
     end
     sections :references, ".//div[@class='reflist columns references-column-width']/ol/li" do
       text :text, "(.//span[@class='reference-text'])[1]"
+      # attributes :links, ".//a[@class='external text']", :href
       sections :links, ".//a[@class='external text']" do
         attribute :link, '.', :href
       end
@@ -19,5 +21,8 @@ WhiteTail.project :wikipedia do
   end
 end
 
+start = Time.now
 results = WhiteTail.execute(:wikipedia)
+finish = Time.now
 puts JSON.pretty_generate(results)
+puts finish - start

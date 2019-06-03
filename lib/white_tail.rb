@@ -12,14 +12,12 @@ module WhiteTail
     DSL::Nodes.def_project_class(project_name, &block)
   end
 
-  def self.execute(project_name)
-    root_node = DSL::Nodes::Record.new
+  def self.execute(project_name, **options)
     project_class = DSL::Nodes::resolve_project_class(project_name)
-    project_command = DSL::Commands::Project.new(root_node.class, project_class, project_name)
+    project_command = DSL::Commands::Project.new(project_class, options)
     session = Capybara::Session.new(:selenium_chrome)
-    execution_scope = ExecutionScope.new(session, root_node)
+    execution_scope = ExecutionScope.new(session, nil)
     project_command.execute(execution_scope)
-    root_node
   rescue StandardError => error
     DSL::Nodes::Error.new(error)
   end

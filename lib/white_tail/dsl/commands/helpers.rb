@@ -10,16 +10,9 @@ module WhiteTail
           end
         end
 
-        def self.validate_script_commands(node_class)
+        def self.extract_script!(node_class)
           raise "#{node_class} has no script defined" unless node_class.respond_to?('script') && node_class.script&.commands
-        end
-
-        def self.validate_record_type(node_class)
-          raise "#{node_class} is not a Record node" unless node_class <= DSL::Nodes::Record
-        end
-
-        def self.validate_list_type(node_class)
-          raise "#{node_class} is not a List node" unless node_class <= DSL::Nodes::List
+          node_class.script
         end
 
         def self.find_elements(execution_scope, locator, options)
@@ -31,12 +24,28 @@ module WhiteTail
           elements
         end
 
-        def self.execute_script(execution_scope)
-          script = execution_scope.node.class.script
+        def self.find_element(execution_scope, locator, locator_index = nil, options)
+          return execution_scope.scoped_element if locator.nil?
+
+          elements = execution_scope.find_all(locator)
+
+          if locator_index
+            element = elements[locator_index]
+          else
+            raise "Ambiguous match, found #{elements.size} elements" if elements.size > 1
+            element = elements.first
+          end
+
+          raise "Element not found" if element.nil? && options[:required]
+
+          element
+        end
+
+        def self.execute_script(script, execution_scope)
           script.commands.each do |command|
             command.execute(execution_scope)
           end
-          execution_scope.node
+          nil
         end
       end
     end
