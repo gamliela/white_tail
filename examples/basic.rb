@@ -2,7 +2,7 @@ require "bundler/setup"
 require "json"
 require "white_tail"
 
-WhiteTail.project :wikipedia do
+WhiteTail.project :white_tail_wiki do
   page :definition, "https://en.wikipedia.org/wiki/White-tailed_spider" do
     validation :logo, ".//div[@id='mw-navigation']//div[@id='p-logo']"
 
@@ -20,7 +20,7 @@ WhiteTail.project :wikipedia do
 end
 
 # start = Time.now
-results = WhiteTail.execute(:wikipedia)
+results = WhiteTail.execute(:white_tail_wiki)
 # finish = Time.now
 puts JSON.pretty_generate(results)
 # puts finish - start
