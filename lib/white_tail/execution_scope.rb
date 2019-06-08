@@ -30,11 +30,6 @@ module WhiteTail
           raise UnexpectedBrowserState, 'locator_index mismatch'
         end
       end
-
-      # def to_s
-      #   s = locator
-      #   s += "##{index}" if index
-      # end
     end
 
     attr_reader :node

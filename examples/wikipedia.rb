@@ -13,16 +13,13 @@ WhiteTail.project :wikipedia do
     end
     sections :references, ".//div[@class='reflist columns references-column-width']/ol/li" do
       text :text, "(.//span[@class='reference-text'])[1]"
-      # attributes :links, ".//a[@class='external text']", :href
-      sections :links, ".//a[@class='external text']" do
-        attribute :link, '.', :href
-      end
+      attributes :links, ".//a[@class='external text']", :href
     end
   end
 end
 
-start = Time.now
+# start = Time.now
 results = WhiteTail.execute(:wikipedia)
-finish = Time.now
+# finish = Time.now
 puts JSON.pretty_generate(results)
-puts finish - start
+# puts finish - start

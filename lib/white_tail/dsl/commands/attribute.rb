@@ -16,8 +16,8 @@ module WhiteTail
         end
 
         def execute(execution_scope)
-          element = Helpers.find_elements(execution_scope, locator, options)
-          value = element.first&.[](attribute)
+          element = Helpers.find_element(execution_scope, locator, options)
+          value = element&.[](attribute)
 
           raise "Attribute #{node_name} not found" if value.nil? && options[:required]
 

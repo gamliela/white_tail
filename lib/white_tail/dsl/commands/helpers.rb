@@ -16,6 +16,8 @@ module WhiteTail
         end
 
         def self.find_elements(execution_scope, locator, options)
+          return [execution_scope.scoped_element] if locator.nil?
+
           elements = execution_scope.find_all(locator)
 
           raise "Element not found" if elements.empty? && options[:required]
