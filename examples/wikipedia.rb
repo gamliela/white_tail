@@ -10,10 +10,11 @@ WhiteTail.project :wikipedia do
     text :description, ".//div[@id='mw-content-text']", :required => true
     section :infobox, ".//div[@id='mw-content-text']//table[@class='infobox biota']" do
       attribute :image_url, ".//img", :src
+      texts :classification, ".//tr[td[2]]"
     end
     sections :references, ".//div[@class='reflist columns references-column-width']/ol/li" do
       text :text, "(.//span[@class='reference-text'])[1]"
-      attributes :links, ".//a[@class='external text']", :href
+      attributes :urls, ".//a[@class='external text']", :href
     end
   end
 end

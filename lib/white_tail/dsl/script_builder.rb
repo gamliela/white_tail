@@ -35,6 +35,14 @@ module WhiteTail
         script << Commands::Assignment.new(text_name, text_command)
       end
 
+      def texts(list_name, locator, **options, &block)
+        list_class = Nodes.def_node_class(self, Nodes::List, list_name)
+        text_class = Nodes.def_node_class(list_class, Nodes::Text, nil, &block)
+        text_command = Commands::Text.new(text_class, nil, options)
+        list_command = Commands::List.new(list_class, locator, text_command, { :required => options[:required] })
+        script << Commands::Assignment.new(list_name, list_command)
+      end
+
       def attribute(attribute_name, locator, attribute, **options)
         attribute_class = Nodes.def_node_class(self, Nodes::Attribute, attribute_name)
         attribute_command = Commands::Attribute.new(attribute_class, locator, attribute, options)
