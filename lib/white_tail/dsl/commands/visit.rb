@@ -16,8 +16,8 @@ module WhiteTail
         end
 
         def execute(execution_scope)
-          page_node = page_class.new
           execution_scope.visit(url) if url
+          page_node = page_class.new
           page_execution_scope = execution_scope.new_instance(page_node)
           Helpers.execute_script(script, page_execution_scope)
           page_node
