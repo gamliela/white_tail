@@ -1,7 +1,7 @@
 module WhiteTail
   module DSL
     module Commands
-      class Page
+      class Visit
         ALLOWED_OPTIONS = []
 
         attr_reader :page_class, :script, :url, :options

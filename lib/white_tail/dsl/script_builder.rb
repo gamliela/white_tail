@@ -8,7 +8,7 @@ module WhiteTail
       def visit(page_name, url, **options, &block)
         page_class = options.delete(:page_class)
         page_class ||= Nodes.def_node_class(self, Nodes::Page, page_name, &block)
-        page_command = Commands::Page.new(page_class, url, options)
+        page_command = Commands::Visit.new(page_class, url, options)
         script << Commands::Assignment.new(page_name, page_command)
       end
 
