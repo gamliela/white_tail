@@ -8,22 +8,22 @@ end
 
 class SearchResultsPage < WhiteTail::DSL::Nodes::Page
   text :results_count, ".//div[@class='results-info']"
-  pagination :results, ".//div[@class='searchresults mw-searchresults-has-iw']", :max_page => 3 do
-    items ".//li[@class='mw-search-result']" do
+  within ".//div[@class='searchresults mw-searchresults-has-iw']" do
+    sections :results, ".//li[@class='mw-search-result']" do
       text :num_words, ".//div[@class='mw-search-result-data']"
       section :heading, ".//div[@class='mw-search-result-heading']/a" do
         text :title, nil
-        link :result_page, nil, page_class => SearchResultPage
+        open :result_link, nil, page_class => SearchResultPage
       end
     end
-    next_link ".//a[@class='mw-nextlink']"
+    load_more :results, ".//a[@class='mw-nextlink']"
   end
 end
 
 class SearchPage < WhiteTail::DSL::Nodes::Page
-  form :search, ".//form[@id='search']" do
-    input ".//input[@name='search']", "spiders"
-    submit ".//input[@type='submit']", :page_class => SearchResultsPage
+  section :search_form, ".//form[@id='search']" do
+    type :query_string, ".//input[@name='search']", "spiders"
+    click :submit, ".//input[@type='submit']", :page_class => SearchResultsPage
   end
 end
 
@@ -32,7 +32,7 @@ class HomePage < WhiteTail::DSL::Nodes::Page
 end
 
 WhiteTail.project :spiders_wiki do
-  page :home, "https://en.wikipedia.org/", :page_class => HomePage
+  visit :home, "https://en.wikipedia.org/", :page_class => HomePage
 end
 
 # start = Time.now
