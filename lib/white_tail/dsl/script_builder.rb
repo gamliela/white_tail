@@ -5,7 +5,7 @@ module WhiteTail
         @script ||= Script.new
       end
 
-      def page(page_name, url, **options, &block)
+      def visit(page_name, url, **options, &block)
         page_class = options.delete(:page_class)
         page_class ||= Nodes.def_node_class(self, Nodes::Page, page_name, &block)
         page_command = Commands::Page.new(page_class, url, options)
