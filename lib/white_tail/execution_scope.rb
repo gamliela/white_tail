@@ -36,8 +36,8 @@ module WhiteTail
 
     def initialize(session, node)
       @session = session
-      @url = session.current_url
       @node = node
+      @url = nil
       @locators = []
       @text = nil
 
@@ -50,6 +50,7 @@ module WhiteTail
 
     def extend_instance(node, locator = nil, locator_index = nil, text = nil)
       instance = new_instance(node)
+      instance.url ||= session.current_url
       instance.locators += locators
       instance.locators <<= IndexedLocator.new(locator, locator_index) if locator
       instance.text = text
