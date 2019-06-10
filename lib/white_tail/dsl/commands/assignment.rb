@@ -9,9 +9,9 @@ module WhiteTail
           @command = command
         end
 
-        def execute(execution_scope)
-          value = command.execute(execution_scope)
-          execution_scope.node[node_name] = value if node_name
+        def execute(execution_context)
+          value = command.execute(execution_context)
+          execution_context.node[node_name] = value if node_name
         end
       end
     end

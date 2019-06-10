@@ -5,7 +5,7 @@ require "white_tail/exceptions"
 require "white_tail/utils"
 require "white_tail/projects"
 require "white_tail/dsl"
-require "white_tail/execution_scope"
+require "white_tail/execution_context"
 
 module WhiteTail
   def self.project(project_name, &block)
@@ -15,9 +15,7 @@ module WhiteTail
   def self.execute(project_name, **options)
     project_class = DSL::Nodes::resolve_project_class(project_name)
     project_command = DSL::Commands::Project.new(project_class, options)
-    session = Capybara::Session.new(:selenium_chrome)
-    execution_scope = ExecutionScope.new(session, nil)
-    project_command.execute(execution_scope)
+    project_command.execute
   rescue StandardError => error
     DSL::Nodes::Error.new(error)
   end

@@ -14,10 +14,11 @@ module WhiteTail
           Helpers.validate_options(options, ALLOWED_OPTIONS)
         end
 
-        def execute(execution_scope)
+        def execute
+          session = Capybara::Session.new(Capybara.default_driver)
           project_node = project_class.new
-          project_execution_scope = execution_scope.new_instance(project_node)
-          Helpers.execute_script(script, project_execution_scope)
+          project_execution_context = ExecutionContext.new(session, project_node)
+          Helpers.execute_script(script, project_execution_context)
           project_node
         end
       end

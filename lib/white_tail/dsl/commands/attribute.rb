@@ -15,8 +15,8 @@ module WhiteTail
           Helpers.validate_options(options, ALLOWED_OPTIONS)
         end
 
-        def execute(execution_scope)
-          element = Helpers.find_element(execution_scope, locator, options)
+        def execute(execution_context)
+          element = Helpers.find_element(execution_context, locator, options)
           value = element&.[](attribute)
 
           raise "Attribute #{node_name} not found" if value.nil? && options[:required]

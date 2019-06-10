@@ -15,37 +15,25 @@ module WhiteTail
           node_class.script
         end
 
-        def self.find_elements(execution_scope, locator, options)
-          return [execution_scope.scoped_element] if locator.nil?
+        def self.find_elements(execution_context, locator, options)
+          return [execution_context.element] if locator.nil?
 
-          elements = execution_scope.find_all(locator)
+          elements = execution_context.element.find_all(locator)
 
           raise "Element not found" if elements.empty? && options[:required]
-          raise "Ambiguous match, found #{elements.size} elements" if elements.size > 1 && !options[:multiple]
+          raise "Ambiguous match, found #{elements.size} elements" if elements.size > 1 && options[:unique]
 
           elements
         end
 
-        def self.find_element(execution_scope, locator, locator_index = nil, options)
-          return execution_scope.scoped_element if locator.nil?
-
-          elements = execution_scope.find_all(locator)
-
-          if locator_index
-            element = elements[locator_index]
-          else
-            raise "Ambiguous match, found #{elements.size} elements" if elements.size > 1
-            element = elements.first
-          end
-
-          raise "Element not found" if element.nil? && options[:required]
-
-          element
+        def self.find_element(execution_context, locator, options)
+          elements = self.find_elements(execution_context, locator, options.merge(:unique => true))
+          elements.first
         end
 
-        def self.execute_script(script, execution_scope)
+        def self.execute_script(script, execution_context)
           script.commands.each do |command|
-            command.execute(execution_scope)
+            command.execute(execution_context)
           end
           nil
         end

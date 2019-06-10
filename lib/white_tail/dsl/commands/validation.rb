@@ -14,8 +14,8 @@ module WhiteTail
           Helpers.validate_options(options, ALLOWED_OPTIONS)
         end
 
-        def execute(execution_scope)
-          execution_scope.find(locator)
+        def execute(execution_context)
+          execution_context.element.find(locator)
         rescue Capybara::ElementNotFound
           raise ValidationFailed.new(nil, node_name)
         end

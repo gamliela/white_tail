@@ -15,20 +15,20 @@ module WhiteTail
           Helpers.validate_options(options, ALLOWED_OPTIONS)
         end
 
-        def execute(execution_scope)
-          elements = Helpers.find_elements(execution_scope, locator, options.merge(:multiple => true))
+        def execute(execution_context)
+          elements = Helpers.find_elements(execution_context, locator, options)
 
           # first, build execution scopes for all elements.
           # it's important to do that before executing any of them, so browser doesn't change state.
-          item_execution_scopes = elements.each_with_index.map do |element, index|
-            execution_scope.extend_instance(nil, locator, index, element.text)
+          list_node = list_class.new
+          item_execution_contexts = elements.each_with_index.map do |element, index|
+            ExecutionContext.new(element, list_node)
           end
 
           # now, build array of nodes. each item is built with the same script, that is stored on sections_class.
           # note that errors do not
-          list_node = list_class.new
-          list_node += item_execution_scopes.map do |item_execution_scope|
-            command.execute(item_execution_scope)
+          list_node += item_execution_contexts.map do |item_execution_context|
+            command.execute(item_execution_context)
           rescue StandardError => error
             DSL::Nodes::Error.new(error)
           end

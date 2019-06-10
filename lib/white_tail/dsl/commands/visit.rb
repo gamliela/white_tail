@@ -15,11 +15,11 @@ module WhiteTail
           Helpers.validate_options(options, ALLOWED_OPTIONS)
         end
 
-        def execute(execution_scope)
-          execution_scope.visit(url) if url
+        def execute(execution_context)
+          execution_context.page.visit(url) if url
           page_node = page_class.new
-          page_execution_scope = execution_scope.new_instance(page_node)
-          Helpers.execute_script(script, page_execution_scope)
+          page_execution_context = ExecutionContext.new(execution_context.page, page_node)
+          Helpers.execute_script(script, page_execution_context)
           page_node
         end
       end

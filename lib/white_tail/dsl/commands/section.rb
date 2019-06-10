@@ -15,12 +15,12 @@ module WhiteTail
           Helpers.validate_options(options, ALLOWED_OPTIONS)
         end
 
-        def execute(execution_scope)
-          element = Helpers.find_element(execution_scope, locator, options)
+        def execute(execution_context)
+          element = Helpers.find_element(execution_context, locator, options)
           if element
             section_node = section_class.new
-            section_execution_scope = execution_scope.extend_instance(section_node, locator, 0, element.text)
-            Helpers.execute_script(script, section_execution_scope)
+            section_execution_context = ExecutionContext.new(element, section_node)
+            Helpers.execute_script(script, section_execution_context)
             section_node
           else
             Nodes::Field.new(nil)
