@@ -10,6 +10,10 @@ module WhiteTail
       def <<(item)
         commands << item
       end
+
+      def find_command_by_name(node_name)
+        commands.find { |command| command.node_name == node_name }
+      end
     end
   end
 end

@@ -1,5 +1,5 @@
 module WhiteTail
-  class UnexpectedBrowserState < StandardError
+  class ScriptError < StandardError
   end
 
   class ValidationFailed < StandardError

@@ -2,11 +2,15 @@ module WhiteTail
   module DSL
     module Commands
       module Helpers
-        def self.validate_options(options, allowed_options, required_options = {})
+        def self.validate_required_option!(option_key, option_value)
+          raise "Required option is missing: #{option_key}" if option_value.nil?
+        end
+
+        def self.validate_options!(options, allowed_options, required_options = {})
           illegal_options = options.keys - allowed_options
           raise "Illegal options were found: #{illegal_options}" if illegal_options.any?
-          required_options.each do |required_key|
-            raise "Required option is missing: #{required_key}" if options[required_key].nil?
+          required_options.each do |option_key|
+            validate_required_option!(option_key, options[option_key])
           end
         end
 
@@ -29,6 +33,14 @@ module WhiteTail
         def self.find_element(execution_context, locator, options)
           elements = self.find_elements(execution_context, locator, options.merge(:unique => true))
           elements.first
+        end
+
+        def self.with_element(execution_context, locator, default = nil, options)
+          element = Helpers.find_element(execution_context, locator, options)
+          if element && block_given?
+            yield element
+          end
+          Nodes::Field.new(default)
         end
 
         def self.execute_script(script, execution_context)

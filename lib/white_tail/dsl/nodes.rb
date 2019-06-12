@@ -11,22 +11,21 @@ require_relative "nodes/attribute"
 module WhiteTail
   module DSL
     module Nodes
-      def self.def_node_class(namespace, super_class, node_name, &block)
-        klass = self.resolve_node_class(namespace, super_class, node_name)
-        klass.class_eval(&block) if block_given?
-        klass
+      def self.resolve_node_class_name(node_name, super_class = nil)
+        prefix = node_name && WhiteTail::Utils::camel_case(node_name.to_s)
+        suffix = super_class && super_class.name.split("::").last
+        prefix || suffix
       end
 
-      def self.resolve_node_class(namespace, super_class, node_name)
-        prefix = WhiteTail::Utils::camel_case(node_name.to_s)
-        suffix = super_class.name.split("::").last
-        local_class_name = prefix + suffix
+      def self.def_node_class(namespace, super_class, node_name, &block)
+        class_name = resolve_node_class_name(node_name, super_class)
+        raise ScriptError, "#{class_name} is already defined on #{namespace}" if namespace.const_defined?(class_name, false)
 
-        unless namespace.const_defined?(local_class_name, false)
-          namespace.const_set(local_class_name, Class.new(super_class))
-        end
+        klass = Class.new(super_class)
+        namespace.const_set(class_name, klass)
+        klass.class_eval(&block) if block_given?
 
-        namespace.const_get(local_class_name, false)
+        klass
       end
 
       def self.def_project_class(project_name, &block)
@@ -34,7 +33,7 @@ module WhiteTail
       end
 
       def self.resolve_project_class(project_name)
-        resolve_node_class(Projects, DSL::Nodes::Project, project_name)
+        Projects.const_get(resolve_node_class_name(project_name), false)
       end
     end
   end

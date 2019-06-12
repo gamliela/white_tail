@@ -7,7 +7,7 @@ module WhiteTail
       @node = node
     end
 
-    def page
+    def session
       element.is_a?(Capybara::Session) ? element : element.session
     end
   end

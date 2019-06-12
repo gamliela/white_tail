@@ -12,7 +12,7 @@ module WhiteTail
           @command = command
           @options = options
 
-          Helpers.validate_options(options, ALLOWED_OPTIONS)
+          Helpers.validate_options!(options, ALLOWED_OPTIONS)
         end
 
         def execute(execution_context)
@@ -32,6 +32,7 @@ module WhiteTail
           rescue StandardError => error
             DSL::Nodes::Error.new(error)
           end
+          list_node
         end
       end
     end

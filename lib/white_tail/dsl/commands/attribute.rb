@@ -12,7 +12,7 @@ module WhiteTail
           @attribute = attribute
           @options = options
 
-          Helpers.validate_options(options, ALLOWED_OPTIONS)
+          Helpers.validate_options!(options, ALLOWED_OPTIONS)
         end
 
         def execute(execution_context)

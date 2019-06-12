@@ -1,7 +1,7 @@
 module WhiteTail
   module DSL
     module Commands
-      class Visit
+      class Open
         ALLOWED_OPTIONS = []
 
         attr_reader :page_class, :script, :url, :options
@@ -17,10 +17,13 @@ module WhiteTail
         end
 
         def execute(execution_context)
-          execution_context.session.visit(url)
           page_node = page_class.new
-          page_execution_context = ExecutionContext.new(execution_context.session, page_node)
-          Helpers.execute_script(script, page_execution_context)
+          session = execution_context.session
+          session.within_window(session.open_new_window) do
+            session.visit(url)
+            page_execution_context = ExecutionContext.new(session, page_node)
+            Helpers.execute_script(script, page_execution_context)
+          end
           page_node
         end
       end
