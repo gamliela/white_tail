@@ -17,9 +17,13 @@ module WhiteTail
         end
 
         def execute(execution_context)
-          Helpers.with_element(execution_context, locator, options) do |element|
-            element.send_keys text
-          end
+          element = locate(execution_context)
+          element&.send_keys text
+          Nodes::Field.new(element&.value)
+        end
+
+        def locate(execution_context)
+          Helpers.find_element(execution_context, locator, options)
         end
       end
     end

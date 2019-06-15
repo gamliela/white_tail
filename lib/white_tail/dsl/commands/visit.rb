@@ -23,6 +23,10 @@ module WhiteTail
           Helpers.execute_script(script, page_execution_context)
           page_node
         end
+
+        def locate(*)
+          nil
+        end
       end
     end
   end

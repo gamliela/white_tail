@@ -3,19 +3,19 @@ module WhiteTail
     module Commands
       module Helpers
         def self.validate_required_option!(option_key, option_value)
-          raise "Required option is missing: #{option_key}" if option_value.nil?
+          raise ScriptError, "Required option is missing: #{option_key}" if option_value.nil?
         end
 
         def self.validate_options!(options, allowed_options, required_options = {})
           illegal_options = options.keys - allowed_options
-          raise "Illegal options were found: #{illegal_options}" if illegal_options.any?
+          raise ScriptError, "Illegal options were found: #{illegal_options}" if illegal_options.any?
           required_options.each do |option_key|
             validate_required_option!(option_key, options[option_key])
           end
         end
 
         def self.extract_script!(node_class)
-          raise "#{node_class} has no script defined" unless node_class.respond_to?('script') && node_class.script&.commands
+          raise ScriptError, "#{node_class} has no script defined" unless node_class.respond_to?('script') && node_class.script&.commands
           node_class.script
         end
 
@@ -24,8 +24,8 @@ module WhiteTail
 
           elements = execution_context.element.find_all(locator)
 
-          raise "Element not found" if elements.empty? && options[:required]
-          raise "Ambiguous match, found #{elements.size} elements" if elements.size > 1 && options[:unique]
+          raise ValidationError, "Element not found" if elements.empty? && options[:required]
+          raise ValidationError, "Ambiguous match, found #{elements.size} elements" if elements.size > 1 && options[:unique]
 
           elements
         end

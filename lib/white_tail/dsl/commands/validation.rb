@@ -15,9 +15,13 @@ module WhiteTail
         end
 
         def execute(execution_context)
-          execution_context.element.find(locator)
-        rescue Capybara::ElementNotFound
-          raise ValidationFailed.new(nil, node_name)
+          locate(execution_context)
+        rescue ValidationError
+          raise ValidationError.new(nil, node_name)
+        end
+
+        def locate(execution_context)
+          Helpers.find_element(execution_context, locator, options.merge(:required => true))
         end
       end
     end

@@ -26,6 +26,10 @@ module WhiteTail
           end
           page_node
         end
+
+        def locate(*)
+          nil
+        end
       end
     end
   end

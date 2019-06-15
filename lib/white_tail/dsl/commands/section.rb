@@ -16,7 +16,7 @@ module WhiteTail
         end
 
         def execute(execution_context)
-          element = Helpers.find_element(execution_context, locator, options)
+          element = locate(execution_context)
           if element
             section_node = section_class.new
             section_execution_context = ExecutionContext.new(element, section_node)
@@ -25,6 +25,10 @@ module WhiteTail
           else
             Nodes::Field.new(nil)
           end
+        end
+
+        def locate(execution_context)
+          Helpers.find_element(execution_context, locator, options)
         end
       end
     end

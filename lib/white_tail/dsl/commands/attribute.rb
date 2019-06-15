@@ -16,12 +16,16 @@ module WhiteTail
         end
 
         def execute(execution_context)
-          element = Helpers.find_element(execution_context, locator, options)
+          element = locate(execution_context)
           value = element&.[](attribute)
 
-          raise "Attribute #{node_name} not found" if value.nil? && options[:required]
+          raise ValidationError, "Attribute #{node_name} not found" if value.nil? && options[:required]
 
           attribute_class.new(value)
+        end
+
+        def locate(execution_context)
+          Helpers.find_element(execution_context, locator, options)
         end
       end
     end

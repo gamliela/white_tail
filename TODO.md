@@ -8,8 +8,6 @@
 
 * multiple anonymous classes are not supported (e.g. multiple "within" command in same section) might conflict. we need a separate class to each one.
 
-* use Helpers.with_element where possible
-
 __Can wait until we have more commands/experience__
 
 * remove duplications in list commands in script_builder.rb

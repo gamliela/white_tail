@@ -13,6 +13,10 @@ module WhiteTail
           value = command.execute(execution_context)
           execution_context.node[node_name] = value if node_name
         end
+
+        def locate(execution_context)
+          command.locate(execution_context)
+        end
       end
     end
   end

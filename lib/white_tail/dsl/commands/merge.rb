@@ -12,6 +12,10 @@ module WhiteTail
           value = command.execute(execution_context)
           execution_context.node.merge!(value)
         end
+
+        def locate(execution_context)
+          command.locate(execution_context)
+        end
       end
     end
   end

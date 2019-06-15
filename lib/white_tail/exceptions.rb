@@ -2,7 +2,7 @@ module WhiteTail
   class ScriptError < StandardError
   end
 
-  class ValidationFailed < StandardError
+  class ValidationError < StandardError
     attr_reader :node_name
 
     def initialize(msg = nil, node_name = nil)

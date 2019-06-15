@@ -16,7 +16,7 @@ module WhiteTail
         end
 
         def execute(execution_context)
-          elements = Helpers.find_elements(execution_context, locator, options)
+          elements = locate(execution_context)
 
           # first, build execution scopes for all elements.
           # it's important to do that before executing any of them, so browser doesn't change state.
@@ -33,6 +33,10 @@ module WhiteTail
             DSL::Nodes::Error.new(error)
           end
           list_node
+        end
+
+        def locate(execution_context)
+          Helpers.find_elements(execution_context, locator, options)
         end
       end
     end

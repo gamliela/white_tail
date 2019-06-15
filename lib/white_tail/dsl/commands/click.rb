@@ -17,7 +17,7 @@ module WhiteTail
         end
 
         def execute(execution_context)
-          element = Helpers.find_element(execution_context, locator, options)
+          element = locate(execution_context)
           if element
             page_node = page_class.new
             element.click
@@ -27,6 +27,10 @@ module WhiteTail
           else
             Nodes::Field.new(nil)
           end
+        end
+
+        def locate(execution_context)
+          Helpers.find_element(execution_context, locator, options)
         end
       end
     end

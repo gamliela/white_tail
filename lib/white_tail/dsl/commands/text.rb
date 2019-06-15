@@ -15,13 +15,17 @@ module WhiteTail
         end
 
         def execute(execution_context)
-          elements = Helpers.find_elements(execution_context, locator, options)
+          elements = locate(execution_context)
           if elements.any?
             value = elements.map(&:text).join(' ')
           else
             value = nil
           end
           text_class.new(value)
+        end
+
+        def locate(execution_context)
+          Helpers.find_elements(execution_context, locator, options)
         end
       end
     end
