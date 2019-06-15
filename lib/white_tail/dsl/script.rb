@@ -12,7 +12,7 @@ module WhiteTail
       end
 
       def find_command_by_name(node_name)
-        commands.find { |command| command.node_name == node_name }
+        commands.find { |command| command.options[:node_name] == node_name } if node_name
       end
     end
   end

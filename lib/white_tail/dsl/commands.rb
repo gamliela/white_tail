@@ -11,6 +11,7 @@ require_relative "commands/type"
 require_relative "commands/wait_for"
 require_relative "commands/merge"
 require_relative "commands/section"
+require_relative "commands/load_more"
 require_relative "commands/text"
 require_relative "commands/attribute"
 

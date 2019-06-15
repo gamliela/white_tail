@@ -16,7 +16,7 @@ class SearchResultsPage < WhiteTail::DSL::Nodes::Page
       #       open :result_link, nil, page_class => SearchResultPage
       #     end
     end
-    #   load_more :results, ".//a[@class='mw-nextlink']"
+    load_more :results, ".//a[@class='mw-nextlink']", :times => 2
   end
 end
 

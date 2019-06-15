@@ -3,7 +3,7 @@ module WhiteTail
     module Commands
       class List < Base
         REQUIRED_OPTIONS = [:node_class, :command]
-        ALLOWED_OPTIONS = [:locator, :required]
+        ALLOWED_OPTIONS = [:locator, :required, :locate_once]
 
         def execute(execution_context)
           elements = Helpers.find_elements(execution_context, options)

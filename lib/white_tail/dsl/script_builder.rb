@@ -80,6 +80,13 @@ module WhiteTail
         script << Commands::Assign.new(:node_name => list_name, :command => list_command)
       end
 
+      def load_more(node_name, locator, **options, &block)
+        node_command = script.find_command_by_name(node_name)
+        raise ScriptError, "Node #{node_name} cannot be found" if node_command.nil?
+        load_more_options = options.merge(:node_name => node_name, :locator => locator, :command => node_command)
+        script << Commands::LoadMore.new(load_more_options)
+      end
+
       def text(text_name, locator, **options)
         options = options.merge(:locator => locator)
         script << Helpers.assign_node_command(self, Nodes::Text, text_name, Commands::Text, options)

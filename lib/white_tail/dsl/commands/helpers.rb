@@ -19,15 +19,25 @@ module WhiteTail
           node_class.script
         end
 
-        def self.find_elements(execution_context, locator: nil, required: nil, unique: nil, **)
+        def self.find_elements(execution_context, locator: nil, required: nil, unique: nil, locate_once: nil, **)
           return [execution_context.element] unless locator
 
-          elements = execution_context.element.find_all(locator)
+          if locate_once
+            elements = execution_context.element.find_all(locator, &self.method(:locate_once_filter))
+          else
+            elements = execution_context.element.find_all(locator)
+          end
 
           raise ValidationError, "Element not found" if elements.empty? && required
           raise ValidationError, "Ambiguous match, found #{elements.size} elements" if elements.size > 1 && unique
 
           elements
+        end
+
+        def self.locate_once_filter(element)
+          return false if element['data-white-tail-located']
+          element.execute_script('this.dataset.whiteTailLocated = true')
+          true
         end
 
         def self.find_element(execution_context, options = {})
