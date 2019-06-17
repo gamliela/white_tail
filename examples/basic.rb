@@ -4,7 +4,7 @@ require "white_tail"
 
 WhiteTail.project :white_tail_wiki do
   visit :definition, "https://en.wikipedia.org/wiki/White-tailed_spider" do
-    validation :logo, ".//div[@id='mw-navigation']//div[@id='p-logo']"
+    wait_for :logo, ".//div[@id='mw-navigation']//div[@id='p-logo']"
 
     text :title, ".//h1[@id='firstHeading']", :required => true
     text :description, ".//div[@id='mw-content-text']", :required => true

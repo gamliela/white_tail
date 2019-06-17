@@ -14,7 +14,7 @@ module WhiteTail
 
   def self.execute(project_name, **options)
     project_class = DSL::Nodes::resolve_project_class(project_name)
-    project_command = DSL::Commands::Project.new(project_class, options)
+    project_command = DSL::Commands::Project.new(options.merge(:node_class => project_class))
     project_command.execute
   rescue StandardError => error
     DSL::Nodes::Error.new(error)

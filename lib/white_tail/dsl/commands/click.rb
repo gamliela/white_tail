@@ -1,25 +1,16 @@
 module WhiteTail
   module DSL
     module Commands
-      class Click
-        ALLOWED_OPTIONS = []
+      class Click < Base
+        prepend ScriptExecuter
 
-        attr_reader :page_class, :script, :locator, :options
-
-        def initialize(page_class, locator, **options)
-          @page_class = page_class
-          @script = Helpers.extract_script!(page_class)
-          @locator = locator
-          @options = options
-
-          Helpers.validate_required_option!(:locator, locator)
-          Helpers.validate_options!(options, ALLOWED_OPTIONS)
-        end
+        REQUIRED_OPTIONS = [:node_class]
+        ALLOWED_OPTIONS = [:locator]
 
         def execute(execution_context)
-          element = locate(execution_context)
+          element = Helpers.find_element(execution_context, options)
           if element
-            page_node = page_class.new
+            page_node = options[:node_class].new
             element.click
             page_execution_context = ExecutionContext.new(execution_context.session, page_node)
             Helpers.execute_script(script, page_execution_context)
@@ -27,10 +18,6 @@ module WhiteTail
           else
             Nodes::Field.new(nil)
           end
-        end
-
-        def locate(execution_context)
-          Helpers.find_element(execution_context, locator, options)
         end
       end
     end
