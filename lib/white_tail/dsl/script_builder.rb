@@ -40,8 +40,8 @@ module WhiteTail
         script << Helpers.assign_node_command(self, Nodes::Page, page_name, Commands::Visit, options, &block)
       end
 
-      def open(page_name, url, **options, &block)
-        options = options.merge(:url => url)
+      def open(page_name, locator, **options, &block)
+        options = options.merge(:locator => locator)
         script << Helpers.assign_node_command(self, Nodes::Page, page_name, Commands::Open, options, &block)
       end
 
