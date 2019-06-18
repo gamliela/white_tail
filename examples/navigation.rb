@@ -3,7 +3,7 @@ require "json"
 require "white_tail"
 
 class SearchResultPage < WhiteTail::DSL::Nodes::Page
-  # text :contents, "//div[@id='toc']"
+  text :toc, "//div[@id='toc']"
 end
 
 class SearchResultsPage < WhiteTail::DSL::Nodes::Page
@@ -11,10 +11,10 @@ class SearchResultsPage < WhiteTail::DSL::Nodes::Page
   within ".//div[@class='searchresults mw-searchresults-has-iw']" do
     sections :results, ".//li[@class='mw-search-result']" do
       text :num_words, ".//div[@class='mw-search-result-data']"
-      #     section :heading, ".//div[@class='mw-search-result-heading']/a" do
-      #       text :title, nil
-      #       open :result_link, nil, page_class => SearchResultPage
-      #     end
+      section :heading, ".//div[@class='mw-search-result-heading']/a" do
+        text :title, nil
+        open :result_link, nil, :page_class => SearchResultPage
+      end
     end
     load_more :results, ".//a[@class='mw-nextlink']", :times => 2
   end
