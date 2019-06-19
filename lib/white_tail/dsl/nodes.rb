@@ -11,6 +11,8 @@ require_relative "nodes/attribute"
 module WhiteTail
   module DSL
     module Nodes
+      NIL = Field.new(nil)
+
       def self.resolve_node_class_name(node_name, super_class = nil)
         prefix = node_name && WhiteTail::Utils::camel_case(node_name.to_s)
         suffix = super_class && super_class.name.split("::").last

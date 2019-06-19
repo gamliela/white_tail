@@ -45,12 +45,13 @@ module WhiteTail
           elements.first
         end
 
-        def self.with_element(execution_context, default: nil, **options)
+        def self.with_element(execution_context, **options)
           element = Helpers.find_element(execution_context, options)
           if element && block_given?
             yield element
+          else
+            Nodes::NIL
           end
-          Nodes::Field.new(default)
         end
 
         def self.execute_script(script, execution_context)

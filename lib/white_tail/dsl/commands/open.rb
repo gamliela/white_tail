@@ -8,10 +8,8 @@ module WhiteTail
         ALLOWED_OPTIONS = [:locator, :required]
 
         def execute(execution_context)
-          element = Helpers.find_element(execution_context, options)
-          if element
+          Helpers.with_element(execution_context, options) do |element|
             url = element[:href]
-            raise ValidationError, "Attribute href not found" if url.nil? && options[:required]
             if url
               page_node = options[:node_class].new
               session = execution_context.session
@@ -22,11 +20,11 @@ module WhiteTail
                 session.current_window.close
               end
               page_node
+            elsif options[:required]
+              raise ValidationError, "Attribute href not found"
             else
-              Nodes::Field.new(nil)
+              Nodes::NIL
             end
-          else
-            Nodes::Field.new(nil)
           end
         end
       end

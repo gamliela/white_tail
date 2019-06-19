@@ -19,7 +19,7 @@ module WhiteTail
             end
             page_node
           else
-            Nodes::Field.new(nil)
+            Nodes::NIL
           end
         end
       end

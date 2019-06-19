@@ -6,12 +6,13 @@ module WhiteTail
         ALLOWED_OPTIONS = [:locator, :required]
 
         def execute(execution_context)
-          element = Helpers.find_element(execution_context, options)
-          value = element&.[](options[:attribute])
+          Helpers.with_element(execution_context, options) do |element|
+            value = element[options[:attribute]]
 
-          raise ValidationError, "Attribute #{node_name} not found" if value.nil? && options[:required]
+            raise ValidationError, "Attribute #{node_name} not found" if value.nil? && options[:required]
 
-          options[:node_class].new(value)
+            options[:node_class].new(value)
+          end
         end
       end
     end
