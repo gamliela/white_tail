@@ -54,6 +54,16 @@ module WhiteTail
           end
         end
 
+        def self.with_new_window(execution_context, url = nil)
+          session = execution_context.session
+          new_window = session.open_new_window
+          session.within_window(new_window) do
+            session.visit(url) if url
+            yield
+            new_window.close
+          end
+        end
+
         def self.execute_script(script, execution_context)
           script.commands.each do |command|
             command.execute(execution_context)

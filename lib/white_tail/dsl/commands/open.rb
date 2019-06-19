@@ -12,12 +12,9 @@ module WhiteTail
             url = element[:href]
             if url
               page_node = options[:node_class].new
-              session = execution_context.session
-              session.within_window(session.open_new_window) do
-                session.visit(url)
-                page_execution_context = ExecutionContext.new(session, page_node)
+              Helpers.with_new_window(execution_context, url) do
+                page_execution_context = ExecutionContext.new(execution_context.session, page_node)
                 Helpers.execute_script(script, page_execution_context)
-                session.current_window.close
               end
               page_node
             elsif options[:required]
