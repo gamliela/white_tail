@@ -1,5 +1,3 @@
-* add within_window helper methods. use `ensure` to ensure the window is closed on errors.
-
 * in `navigaion.rb`, try to replace `open :result_link` with `click`
 
 * multiple anonymous classes are not supported (e.g. multiple "within" command in same section) might conflict. we need a separate class to each one.

@@ -60,6 +60,7 @@ module WhiteTail
           session.within_window(new_window) do
             session.visit(url) if url
             yield
+          ensure
             new_window.close
           end
         end
