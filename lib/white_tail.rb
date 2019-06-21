@@ -1,3 +1,4 @@
+require "active_support/core_ext/hash/slice"
 require "capybara/dsl"
 require "white_tail/default_config"
 require "white_tail/version"

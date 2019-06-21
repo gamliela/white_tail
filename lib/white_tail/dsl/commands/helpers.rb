@@ -19,7 +19,7 @@ module WhiteTail
           node_class.script
         end
 
-        def self.find_elements(execution_context, locator: nil, required: nil, unique: nil, locate_once: nil, **)
+        def self.find_elements(execution_context, locator: nil, required: nil, unique: nil, locate_once: nil, max_items: nil, **)
           return [execution_context.element] unless locator
 
           if locate_once
@@ -31,7 +31,11 @@ module WhiteTail
           raise ValidationError, "Element not found" if elements.empty? && required
           raise ValidationError, "Ambiguous match, found #{elements.size} elements" if elements.size > 1 && unique
 
-          elements
+          if max_items
+            elements.first(max_items)
+          else
+            elements
+          end
         end
 
         def self.locate_once_filter(element)

@@ -72,10 +72,11 @@ module WhiteTail
 
       def sections(list_name, locator, **options, &block)
         list_class = Nodes.def_node_class(self, Nodes::List, list_name)
+        list_options = options.extract!(:max_items)
         section_class = Nodes.def_node_class(list_class, Nodes::Section, nil, &block)
         section_options = options.merge(:node_class => section_class, :locator => nil)
         section_command = Commands::Section.new(section_options)
-        list_options = { :node_class => list_class, :locator => locator, :command => section_command, :required => options[:required] }
+        list_options.merge!(:node_class => list_class, :locator => locator, :command => section_command, :required => options[:required])
         list_command = Commands::List.new(list_options)
         script << Commands::Assign.new(:node_name => list_name, :command => list_command)
       end
@@ -94,10 +95,11 @@ module WhiteTail
 
       def texts(list_name, locator, **options, &block)
         list_class = Nodes.def_node_class(self, Nodes::List, list_name)
+        list_options = options.extract!(:max_items)
         text_class = Nodes.def_node_class(list_class, Nodes::Text, nil, &block)
         text_options = options.merge(:node_class => text_class, :locator => nil)
         text_command = Commands::Text.new(text_options)
-        list_options = { :node_class => list_class, :locator => locator, :command => text_command, :required => options[:required] }
+        list_options.merge!(:node_class => list_class, :locator => locator, :command => text_command, :required => options[:required])
         list_command = Commands::List.new(list_options)
         script << Commands::Assign.new(:node_name => list_name, :command => list_command)
       end
@@ -109,10 +111,11 @@ module WhiteTail
 
       def attributes(list_name, locator, attribute, **options)
         list_class = Nodes.def_node_class(self, Nodes::List, list_name)
+        list_options = options.extract!(:max_items)
         attribute_class = Nodes.def_node_class(list_class, Nodes::Attribute, nil)
         attribute_options = options.merge(:node_class => attribute_class, :locator => nil, :attribute => attribute)
         attribute_command = Commands::Attribute.new(attribute_options)
-        list_options = { :node_class => list_class, :locator => locator, :command => attribute_command, :required => options[:required] }
+        list_options.merge!(:node_class => list_class, :locator => locator, :command => attribute_command, :required => options[:required])
         list_command = Commands::List.new(list_options)
         script << Commands::Assign.new(:node_name => list_name, :command => list_command)
       end

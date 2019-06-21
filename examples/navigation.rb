@@ -9,7 +9,7 @@ end
 class SearchResultsPage < WhiteTail::DSL::Nodes::Page
   attribute :results_count, ".//div[@class='results-info']", "data-mw-num-results-total"
   within ".//div[@class='searchresults mw-searchresults-has-iw']" do
-    sections :results, ".//li[@class='mw-search-result']" do
+    sections :results, ".//li[@class='mw-search-result']", :max_items => 2 do
       text :num_words, ".//div[@class='mw-search-result-data']"
       section :heading, ".//div[@class='mw-search-result-heading']/a" do
         text :title, nil
