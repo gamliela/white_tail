@@ -99,7 +99,7 @@ module WhiteTail
           # we tried too many times, raise an error.
           # on a well structured script and website, 1 try should be enough.
           # note that it's not possible to know if we've reached to the end of history
-          # so an hard coded limit must be used.
+          # so an hard coded limit must be used. also, history has an unknown size limit.
           raise BrowserStateError, "Unexpected history position"
         end
 
