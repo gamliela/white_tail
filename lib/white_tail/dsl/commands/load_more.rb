@@ -22,7 +22,7 @@ module WhiteTail
             results << execution_context.node[options[:node_name]]
 
             # do not load more than :times
-            break if times >= options[:times]
+            break if options[:times] && (times >= options[:times])
             times += 1
 
             # find and click an element to obtain more results
