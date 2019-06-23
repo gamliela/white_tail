@@ -35,6 +35,11 @@ module WhiteTail
 
             # run the original command again, so new results are set on execution_context
             options[:command].execute(execution_context)
+
+          rescue StandardError => error
+            # in case of error just add it to the list and abort. this way we don't lose the previous items.
+            results << DSL::Nodes::Error.new(error)
+            break
           end
 
           # assign all results back on the original node (use flatten so all "pages" will result in one long list)
