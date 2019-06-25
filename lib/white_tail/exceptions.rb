@@ -12,7 +12,4 @@ module WhiteTail
       super(msg)
     end
   end
-
-  class BrowserStateError < StandardError
-  end
 end
