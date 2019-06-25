@@ -69,65 +69,6 @@ module WhiteTail
           end
         end
 
-        # push a state (string) into browser history, *just before* the top of the history stack
-        def self.push_history_mark(session)
-          @push_history_mark_counter = (@push_history_mark_counter || 0) + 1
-          location_mark = "whiteTailHistoryMark#{@push_history_mark_counter}"
-          session.execute_script <<~JS
-            (function(newState){
-              const oldState = window.history.state;
-              window.history.replaceState(newState, document.title, location.href);
-              window.history.pushState(oldState, document.title, location.href);
-            })('#{location_mark}')
-          JS
-          location_mark
-        end
-
-        # pop all frames from history stack until reaching location_mark, *but keep* the top of the history stack
-        def self.pop_history_mark(session, location_mark)
-          top_state = session.evaluate_script("window.history.state")
-          3.times do
-            session.go_back
-            almost_top_state = session.evaluate_script("window.history.state")
-            if location_mark == almost_top_state
-              session.evaluate_script("window.history.replaceState('#{top_state}', document.title, location.href);")
-              return
-            end
-            top_state = almost_top_state
-          end
-
-          # we tried too many times, raise an error.
-          # on a well structured script and website, 1 try should be enough.
-          # note that it's not possible to know if we've reached to the end of history
-          # so an hard coded limit must be used. also, history has an unknown size limit.
-          raise BrowserStateError, "Unexpected history position"
-        end
-
-        def self.mark_location(execution_context)
-          {
-            :window_handle => execution_context.session.current_window.handle,
-            :history_mark => push_history_mark(execution_context.session)
-          }
-        end
-
-        def self.unmark_location(execution_context, location_mark)
-          # assert we're still on the same window
-          new_window_handle = execution_context.session.current_window.handle
-          raise BrowserStateError, "Unexpected window" if location_mark[:window_handle] != new_window_handle
-
-          # assert we're still on the same page (try to go_back if not)
-          pop_history_mark(execution_context.session, location_mark[:history_mark])
-        end
-
-        # for now this only freeze history state of the current window
-        # in the future, we might also assert/freeze window state or url state
-        def self.with_marked_location(execution_context, &block)
-          location_mark = mark_location(execution_context)
-          yield
-        ensure
-          unmark_location(execution_context, location_mark)
-        end
-
         def self.execute_script(script, execution_context)
           script.commands.each do |command|
             command.execute(execution_context)
