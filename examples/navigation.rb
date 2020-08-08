@@ -1,3 +1,6 @@
+# This script searches for "spiders" at https://en.wikipedia.org/,
+# crawls the the first 3 result pages and prints a JSON with some scraped data.
+
 require "bundler/setup"
 require "json"
 require "white_tail"
