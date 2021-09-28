@@ -39,7 +39,7 @@ GEM
       racc (~> 1.4)
     public_suffix (3.0.3)
     racc (1.5.2)
-    rack (2.0.8)
+    rack (2.2.3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rake (13.0.1)
